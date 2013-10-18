@@ -44,6 +44,7 @@ listen(Port, Opts) ->
 -spec accept(inet:socket(), timeout())
 	-> {ok, inet:socket()} | {error, closed | timeout | atom()}.
 accept(LSocket, Timeout) ->
+	statsderl:increment([<<"connections.accept">>], 1, 0.01),
 	gen_tcp:accept(LSocket, Timeout).
 
 connect(Host, Port, Opts) ->
@@ -95,6 +96,7 @@ peername(Socket) ->
 %% @see gen_tcp:close/1
 -spec close(inet:socket()) -> ok.
 close(Socket) ->
+	statsderl:increment([<<"connections.close">>], 1, 0.01),
 	gen_tcp:close(Socket).
 
 %% @doc Get the local address and port of a socket
