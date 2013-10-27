@@ -17,6 +17,13 @@ filter_props(Props, Allowed) ->
 
 filter_props([], _Allowed, Acc) ->
     lists:reverse(Acc);
+filter_props([{K, _, _, _}=KV|Rest], Allowed, Acc) ->
+    case lists:member(K, Allowed) of
+        true ->
+            filter_props(Rest, Allowed, [KV|Acc]);
+        false ->
+            filter_props(Rest, Allowed, Acc)
+    end;
 filter_props([{K, _}=KV|Rest], Allowed, Acc) ->
     case lists:member(K, Allowed) of
         true ->
